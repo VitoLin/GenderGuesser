@@ -1,1 +1,3 @@
-# THIS IS OUR GENDER SWAP PROJECT :)
+# Computer Vision Project: Gender Swap
+
+Vito Lin and John Lee
