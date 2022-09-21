@@ -24,3 +24,10 @@ In order to accomplish this goal we have to first gather a large dataset of face
 * Be able to preprocess these data sets to that way the are consistent to be used in our algorithm
 * We want to gather a large amount of faces from different sites that hold faces and then preprocess them all to work within our model. We can then split the model into training, validation, and testing.
 
+
+We will utilize the Celeb Dataset from Kaggle found here: https://www.kaggle.com/datasets/jessicali9530/celeba-dataset?resource=download.
+The original paper this dataset was created for is:
+S. Yang, P. Luo, C. C. Loy, and X. Tang, "From Facial Parts Responses to Face Detection: A Deep Learning Approach", in IEEE International Conference on Computer Vision (ICCV), 2015
+The dataset contains 202599 facial images of celebrities, cropped and aligned. Each image comes with 40 (-1, 1) binary attribute annotations (including Gender) and 5 landmark locations (eyes, nose, left/right mouth). Of the 202599 images, there are 10,177 unique anonymous identities.
+Since some images contain distracting annotated features such as eyewear, we will likely reconsider their usage in the dataset.
+Although the dataset provides a suggested train/val/test distribution roughly approximating to 80/10/10, if we remove certain images mentioned above, we will randomly repartition the remaining images into the same ratio. Furthermore, we may wish to treat the males and females as 2 different datasets. In that case, we will certianly repartition the data.
