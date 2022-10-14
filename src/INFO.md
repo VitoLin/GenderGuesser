@@ -35,10 +35,10 @@ returns the map of the attributes and their encodings such as: the age as a rang
 You can look in the [data_viz.ipynb](https://github.com/VitoLin/GenderSwap/blob/main/data_viz.ipynb) notebook for examples of the filters in use
 
 Getting list of attributes
-![alt text](https://github.com/VitoLin/GenderSwap/tree/main/img/example1.png)
+<img src="https://github.com/VitoLin/GenderSwap/tree/main/img/example1.png" alt="Alt text" title="Optional title">
 
 Setting filter
-![alt text](https://github.com/VitoLin/GenderSwap/tree/main/img/example2.png)
+<img src="https://github.com/VitoLin/GenderSwap/tree/main/img/example2.png" alt="Alt text" title="Optional title">
 
 Getting filter results
-![alt text](https://github.com/VitoLin/GenderSwap/tree/main/img/example3.png)
+<img src="https://github.com/VitoLin/GenderSwap/tree/main/img/example3.png" alt="Alt text" title="Optional title">
