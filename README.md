@@ -51,9 +51,12 @@ FairFace:
 Since the data provides a relatively clear image of the individuals face, no real transformation/changes should be necessary. However, we need to implement a filter that allows us to train using only a certain ethnicity and test using a different ethnicity. 
 
 ### Installation
-Clone github into local directory
-Run conda env create -> automatically generates suitable python environment (may need to install the appropriate pytorch library for device)
-Download Data:
+Clone github into local directory.
+Navigate to root of git repository.
+Run conda env create.
+To utilize cuda, go to pytorch website [https://pytorch.org/] and install appropriate version of pytorch
+
+Download Data and place in appropriate files:
     FairFace: https://github.com/joojs/fairface -> [padding = .25][fairface_label_train.csv][fairface_label_val.csv]
     CelebA: https://www.kaggle.com/datasets/jessicali9530/celeba-dataset?resource=download -> extract zip file
 
