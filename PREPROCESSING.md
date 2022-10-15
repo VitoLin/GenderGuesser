@@ -1,6 +1,6 @@
 ### Part 3
 #### Overview
-Since we using deep learning as part of our project we do not need much preprocessing. The features will be extracted as part of our machine learning algorithm. Hence we also perform an two base case evaluations on 2 pretrained models - InceptionResnet w/ VGGFace2 or Casia-webface.
+Since we using deep learning as part of our project we do not need much preprocessing. The features will be extracted as part of our machine learning algorithm. Hence we also perform an embedding extractiong on 2 pretrained models - InceptionResnet w/ VGGFace2 or Casia-webface.
 
 
 #### Preprocessing
