@@ -11,9 +11,14 @@ class CelebData(torchdata.Dataset):
     ATTR_FP = Path('data/list_attr_celeba.csv')
     DATA_DIR = Path('data/img_align_celeba')
     
-    def __init__(self, root = '.'):
+    def __init__(self, root = '.', sample = False):
         super().__init__()
         self.root = Path(root)
+        
+        if sample:
+            self.ATTR_FP = Path('data_sample/list_attr_celeba.csv')
+            self.DATA_DIR = Path('data_sample/img_align_celeba')
+        
         self.attr_filter = pd.read_csv(self.root / self.ATTR_FP)
         self.filter = ['Male']
     
@@ -53,9 +58,15 @@ class FairFaceData(torchdata.Dataset):
     TRAIN_FP = Path('data/fairface_label_train.csv')
     DATA_DIR = Path('data/fairface-img-margin025-trainval')
     
-    def __init__(self, root = '.') -> None:
+    def __init__(self, root = '.', sample = False) -> None:
         super().__init__()
         self.root = Path(root)
+        
+        if sample:
+            self.VAL_FP = Path('data_sample/fairface_label_val.csv')
+            self.TRAIN_FP = Path('data_sample/fairface_label_train.csv')
+            self.DATA_DIR = Path('data_sample/fairface-img-margin025-trainval')
+                
         self.attr_filter = pd.concat([pd.read_csv(root / self.TRAIN_FP), pd.read_csv(root / self.VAL_FP)]) # combine train and val with our own data style
         self.attr_filter['index'] = list(range(len(self.attr_filter)))
         self.attr_filter.set_index('index', inplace = True)
