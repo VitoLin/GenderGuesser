@@ -9,3 +9,6 @@ dependencies:
     - matplotlib==3.6
     - pandas==1.5
     - facenet_pytorch
+    - tqdm
+    - pytorch-lightning
+    
