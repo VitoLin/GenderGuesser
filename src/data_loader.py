@@ -72,6 +72,9 @@ class FairFaceData(torchdata.Dataset):
         self.attr_filter.set_index('index', inplace = True)
         # create map of attr and their encodings
         self.attr_map = {col: {name: idx for idx, name in enumerate(self.attr_filter[col].unique())} for col in self.attr_filter.columns if col != 'file'} 
+        self.attr_map['gender']['Male'] = 1
+        self.attr_map['gender']['Female'] = 0
+        
         
         # fill array with encodings
         self.attr_filter.replace(self.attr_map, inplace = True)
@@ -110,3 +113,38 @@ class FairFaceData(torchdata.Dataset):
         for key, value in filter_.items():
             tmp = tmp[tmp[key] == self.attr_map[key][value]]
         return torchdata.Subset(self, indices=tmp.index)
+    
+    
+class EmbeddingData(torchdata.Dataset):
+    ''' Not designed for lazy eval. If data is too large this won't work'''
+    
+    DATA_PROCESS = 'data_processed'
+    SAMPLE_PROCESS = 'data_sample_processed'
+    EMB_NAME = 'embeddings.pt'
+    GEN_NAME = 'gender.pt'
+    
+    def __init__(self, data_dir_name, root = '.', device = 'cpu', sample = False) -> None:
+        super().__init__()
+        root = Path(root)
+        
+        # check which mode
+        if sample:
+            root = root / self.SAMPLE_PROCESS
+        else:
+            root = root / self.DATA_PROCESS
+        
+        self.data_dir = root / data_dir_name
+        
+        if not self.data_dir.exists():
+            raise FileNotFoundError(f"{str(self.data_dir)} was not found.")
+        
+        self.x = torch.load(str(self.data_dir / self.EMB_NAME), map_location=device)
+        self.y = torch.load(str(self.data_dir / self.GEN_NAME), map_location=device)
+    
+    def __len__(self):
+        # number of rows in df
+        return len(self.x)
+    
+    def __getitem__(self, idx):
+        return self.x[idx], self.y[idx]
+        

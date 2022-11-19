@@ -50,6 +50,16 @@ There will be little difference between the training and validation data sets as
 FairFace:
 Since the data provides a relatively clear image of the individuals face, no real transformation/changes should be necessary. However, we need to implement a filter that allows us to train using only a certain ethnicity and test using a different ethnicity. 
 
+### Preprocessing
+
+See [PREPROCESSING](preprocessing/PREPROCESSING.md)
+
+### Classification
+
+See [CLASSIFICATION](classification/CLASSIFICATION.md)
+
+
+
 ### Installation
 Clone github into local directory.
 Navigate to root of git repository.
