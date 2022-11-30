@@ -37,7 +37,6 @@ class MLPClassifier(nn.Module):
         x = relu(self.hidden1(x))
         x = relu(self.hidden2(x))
         x = torch.sigmoid(self.out(x)) # to convert to 0, 1
-        print(x)
         return x
 
 class MLPClassifierWrapper(pt.LightningModule):
