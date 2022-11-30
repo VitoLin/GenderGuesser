@@ -121,7 +121,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description = 'Trains a MLP classifier')
     parser.add_argument('-root', default = '..', help = 'Root path')
-    parser.add_argument('-m', dest = 'model', help = 'Type of model: vggface2 or casia')
+    parser.add_argument('-m', dest = 'model', help = 'Type of model: vggface2 or casia or vgg16')
     
     args = parser.parse_args()
     
