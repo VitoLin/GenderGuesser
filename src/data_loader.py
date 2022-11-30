@@ -3,6 +3,7 @@ import torch.utils.data as torchdata
 from torchvision.transforms.functional import pil_to_tensor
 import pandas as pd
 from pathlib import Path
+from torchvision import transforms
 from PIL import Image
 
 class CelebData(torchdata.Dataset):
@@ -21,6 +22,10 @@ class CelebData(torchdata.Dataset):
         
         self.attr_filter = pd.read_csv(self.root / self.ATTR_FP)
         self.filter = ['Male']
+        self.transform = transforms.Pad(0)
+        
+    def set_transformation(self, transform):
+        self.transform = transform
     
     def get_all_filter(self):
         return self.attr_filter.columns[1:] # all except for image_id
@@ -37,7 +42,7 @@ class CelebData(torchdata.Dataset):
         # get img as tensor
         img_name = self.attr_filter.iloc[idx]['image_id']
         img = Image.open(self.root / self.DATA_DIR / img_name)
-        img_tensor = pil_to_tensor(img)
+        img_tensor = self.transform(img)
         
         # get target as filter
         target = torch.tensor(self.attr_filter.iloc[idx][self.filter].values.tolist())
@@ -67,21 +72,25 @@ class FairFaceData(torchdata.Dataset):
             self.TRAIN_FP = Path('data_sample/fairface_label_train.csv')
             self.DATA_DIR = Path('data_sample/fairface-img-margin025-trainval')
                 
-        self.attr_filter = pd.concat([pd.read_csv(root / self.TRAIN_FP), pd.read_csv(root / self.VAL_FP)]) # combine train and val with our own data style
-        self.attr_filter['index'] = list(range(len(self.attr_filter)))
-        self.attr_filter.set_index('index', inplace = True)
+        self.attr_filter_orig = pd.concat([pd.read_csv(root / self.TRAIN_FP), pd.read_csv(root / self.VAL_FP)]) # combine train and val with our own data style
+        self.attr_filter_orig['index'] = list(range(len(self.attr_filter_orig)))
+        self.attr_filter_orig.set_index('index', inplace = True)
         # create map of attr and their encodings
-        self.attr_map = {col: {name: idx for idx, name in enumerate(self.attr_filter[col].unique())} for col in self.attr_filter.columns if col != 'file'} 
+        self.attr_map = {col: {name: idx for idx, name in enumerate(self.attr_filter_orig[col].unique())} for col in self.attr_filter_orig.columns if col != 'file'} 
         self.attr_map['gender']['Male'] = 1
         self.attr_map['gender']['Female'] = 0
         
         
         # fill array with encodings
-        self.attr_filter.replace(self.attr_map, inplace = True)
+        self.attr_filter = self.attr_filter_orig.replace(self.attr_map, inplace = False)
         
         
         self.filter = ['gender']
-    
+        
+        self.transform = transforms.Pad(0)
+        
+    def set_transformation(self, transform):
+        self.transform = transform
     def get_attr_map(self):
         return self.attr_map
 
@@ -100,7 +109,7 @@ class FairFaceData(torchdata.Dataset):
         # get img as tensor
         img_name = self.attr_filter.iloc[idx]['file']
         img = Image.open(self.root / self.DATA_DIR / img_name)
-        img_tensor = pil_to_tensor(img)
+        img_tensor = self.transform(img)
         
         # get target as filter
         target = torch.tensor(self.attr_filter.iloc[idx][self.filter].values.tolist())
@@ -123,7 +132,7 @@ class EmbeddingData(torchdata.Dataset):
     EMB_NAME = 'embeddings.pt'
     GEN_NAME = 'gender.pt'
     
-    def __init__(self, data_dir_name, root = '.', device = 'cpu', sample = False) -> None:
+    def __init__(self, data_dir_name, root = '.', device = 'cpu', sample = False, prefix = None) -> None:
         super().__init__()
         root = Path(root)
         
@@ -134,6 +143,10 @@ class EmbeddingData(torchdata.Dataset):
             root = root / self.DATA_PROCESS
         
         self.data_dir = root / data_dir_name
+        
+        if prefix:
+            self.EMB_NAME = prefix + '_' + self.EMB_NAME
+            self.GEN_NAME = prefix + '_' + self.GEN_NAME
         
         if not self.data_dir.exists():
             raise FileNotFoundError(f"{str(self.data_dir)} was not found.")
@@ -147,4 +160,3 @@ class EmbeddingData(torchdata.Dataset):
     
     def __getitem__(self, idx):
         return self.x[idx], self.y[idx]
-        
