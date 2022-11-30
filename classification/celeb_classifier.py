@@ -10,7 +10,6 @@ from pytorch_lightning.loggers import CSVLogger
 from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
 from pathlib import Path
 import argparse
-from facenet_pytorch import InceptionResnetV1
 
 from src.data_loader import EmbeddingData
 
@@ -38,6 +37,7 @@ class MLPClassifier(nn.Module):
         x = relu(self.hidden1(x))
         x = relu(self.hidden2(x))
         x = torch.sigmoid(self.out(x)) # to convert to 0, 1
+        print(x)
         return x
 
 class MLPClassifierWrapper(pt.LightningModule):
@@ -133,7 +133,8 @@ if __name__ == '__main__':
     # check trained model
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     print(f'Using {device} for inference')
-    if args.model == 'vggface2' or args.model == 'casia':
+
+    if args.model == 'vggface2' or args.model == 'casia':    
         input_features = 512
     elif args.model == 'vgg16':
         input_features = 4096
@@ -156,8 +157,6 @@ if __name__ == '__main__':
     val_len = int(.10 * len(celeb_data))
     test_len = len(celeb_data) - train_len - val_len
     train_data, val_data, test_data = torchdata.random_split(celeb_data, lengths = [train_len, val_len, test_len])
-    
-
     
     # loaders
     train_loader = torchdata.DataLoader(train_data, batch_size = 128, shuffle = True)
