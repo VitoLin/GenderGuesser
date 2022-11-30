@@ -55,6 +55,8 @@ class MLPClassifierWrapper(pt.LightningModule):
         x, y = batch
         yhat = self.model(x)
         loss = self.loss_func(yhat, y.float())
+        train_acc = torch.sum(yhat.round() == y) / len(y)
+        self.log("train_acc", train_acc)
         self.log("train_loss", loss)
         return loss
 
