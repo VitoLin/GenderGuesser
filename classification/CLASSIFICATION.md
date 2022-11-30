@@ -13,4 +13,7 @@ Load Embeddings for celeb data
         - ReLU internal activation, Sigmoid output activation.
     - Trained using LR reduction on Plateau and Early Stopping to avoid over training
     - Model with lowest validation loss is saved.
-    - Results found in Results.ipynb
+
+
+
+- Results found in Results.ipynb (These can be run by the graders)
