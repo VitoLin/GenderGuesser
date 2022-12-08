@@ -58,7 +58,7 @@ Our training and validation accuracies are below (Measurements for the first cal
 
 ![](https://i.imgur.com/kYjSfF7.jpg)
 
-From Casia we can see that we achieved extremely high validation accuracy at the final epoch at 97.14%. This was the highest from the three models. VGGface2 came in second at 90% accuracy.
+From VGGface2 we can see that we achieved extremely high validation accuracy at the final epoch at 98.60%   This was the highest from the three models. Casia came in second at 97.23% accuracy.
 
 The interesting one was VGG16-Imagenet. The other pretrained models were only trained on facial data, which would make sense why they ranked much, much better than VGG16. The high loss calculated demonstrates how poorly the pretrained model fitted our data. This loss is largely due to the model just predicting female 100% of the time (hence ~60% accuracy which is the ratio of female to male). This would make sense however, since VGG16-Imagenet is meant to be a larger more cohesive model for multiple different categories of images and embeddings probably aren't precise to human qualities.=.
 
