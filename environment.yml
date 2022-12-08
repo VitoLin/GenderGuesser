@@ -11,4 +11,4 @@ dependencies:
     - facenet_pytorch
     - tqdm
     - pytorch-lightning
-    
+    - opencv-python
